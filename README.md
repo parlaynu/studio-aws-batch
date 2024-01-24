@@ -1,7 +1,7 @@
 # AWS Batch Cluster
 
 This repository builds an [AWS Batch](https://aws.amazon.com/batch/) cluster. There is a lot to get AWS Batch 
-to the point where all the components are in place and it's ready to do real work. Thus project builds the 
+to the point where all the components are in place and it's ready to do real work. This project builds the 
 supporting infrastructure and provides some tools to ease the process of getting started.
 
 The default setup builds a demo or development cluster. This is a minimal setup to test the system. There
