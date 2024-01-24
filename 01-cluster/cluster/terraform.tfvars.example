@@ -1,0 +1,20 @@
+
+# By default, the system relies on a gateway server for the compute nodes to access resources
+# outside the VPC. This includes S3 buckets and ECR repositories. This obviously doesn't scale
+# for larger clusters. By setting this variable to true, endpoints for the resources are created
+# for the VPC and subnets which are scalable and resilient.
+# enable_endpoints = true
+
+# The standard config creates a single zone. This can be used to create subnets in multiple
+# zones for compute resources.
+# num_zones = 3
+
+# Explicitly specify the zones to use. This overrides the 'num_zones' variable if set.
+# zones = ["ap-southeast-2a", "ap-southeast-2b"]
+
+# The system defaults to creating some example buckets to use. If you specify the buckets 
+# using these variables, it doesn't create any buckets and instead creates the necessary
+# IAM policies and roles for the jobs to access the buckets specified here.
+ro_buckets = ["bucket1", "bucket2"]
+rw_buckets = ["bucket3", "bucket4"]
+

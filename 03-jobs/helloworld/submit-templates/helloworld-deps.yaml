@@ -1,0 +1,102 @@
+---
+# simple job
+- name: helloworld-1-{{ timestamp }}
+  definition: {{ definition | default('%s-helloworld' | format(project)) }}
+  queue: {{ queue | default('%s-cpu-p3') | format(project) }}
+  command: 
+    - /usr/local/bin/run-wrapper.py
+    - -v
+    - /workspace/helloworld/helloworld.py
+  envvars:
+    WORKDIR: /workspace
+  resources:
+    VCPU: 1
+    MEMORY: 1024
+  tags:
+    submitter: {{ username }}
+
+# array job
+# starts after helloworld-1 completes
+- name: helloworld-2-{{ timestamp }}
+  definition: {{ definition | default('%s-helloworld' | format(project)) }}
+  queue: {{ queue | default('%s-cpu-p3') | format(project) }}
+  command:
+    - /usr/local/bin/run-wrapper.py
+    - -v
+    - /workspace/helloworld/helloworld.py
+  array_size: {{ array_size | default(4) }}
+  envvars:
+    WORKDIR: /workspace
+    AWS_BATCH_JOB_ARRAY_SIZE: {{ array_size | default(4) }}
+  resources:
+    VCPU: 1
+    MEMORY: 1024
+  tags:
+    submitter: {{ username }}
+  depends_on:
+    - jobId: helloworld-1-{{ timestamp }}
+
+# array job
+# each sub-job can start when corresponding sub-job from helloworld-2 completes
+- name: helloworld-3-{{ timestamp }}
+  definition: {{ definition | default('%s-helloworld' | format(project)) }}
+  queue: {{ queue | default('%s-cpu-p3') | format(project) }}
+  command: 
+    - /usr/local/bin/run-wrapper.py
+    - -v
+    - /workspace/helloworld/helloworld.py
+  array_size: {{ array_size | default(4) }}
+  envvars:
+    WORKDIR: /workspace
+    AWS_BATCH_JOB_ARRAY_SIZE: {{ array_size | default(4) }}
+  resources:
+    VCPU: 1
+    MEMORY: 1024
+  tags:
+    submitter: {{ username }}
+  depends_on:
+    - jobId: helloworld-2-{{ timestamp }}
+      type: N_TO_N
+
+# array job
+# waits until all jobs from helloworld-3 completes before starting
+# each sub-job run sequentially
+- name: helloworld-4-{{ timestamp }}
+  definition: {{ definition | default('%s-helloworld' | format(project)) }}
+  queue: {{ queue | default('%s-cpu-p3') | format(project) }}
+  command: 
+    - /usr/local/bin/run-wrapper.py
+    - -v
+    - /workspace/helloworld/helloworld.py
+  array_size: {{ array_size | default(4) }}
+  envvars:
+    WORKDIR: /workspace
+    AWS_BATCH_JOB_ARRAY_SIZE: {{ array_size | default(4) }}
+  resources:
+    VCPU: 1
+    MEMORY: 1024
+  tags:
+    submitter: {{ username }}
+  depends_on:
+    - jobId: helloworld-3-{{ timestamp }}
+    - type: SEQUENTIAL
+
+# simple job
+# runs when helloworld-4 completes
+- name: helloworld-5-{{ timestamp }}
+  definition: {{ definition | default('%s-helloworld' | format(project)) }}
+  queue: {{ queue | default('%s-cpu-p3') | format(project) }}
+  command: 
+    - /usr/local/bin/run-wrapper.py
+    - -v
+    - /workspace/helloworld/helloworld.py
+  envvars:
+    WORKDIR: /workspace
+  resources:
+    VCPU: 1
+    MEMORY: 1024
+  tags:
+    submitter: {{ username }}
+  depends_on:
+    - jobId: helloworld-4-{{ timestamp }}
+

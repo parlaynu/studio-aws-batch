@@ -1,0 +1,16 @@
+---
+- name: helloworld-{{ timestamp }}
+  definition: {{ definition | default('%s-helloworld' | format(project)) }}
+  queue: {{ queue | default('%s-cpu-p3') | format(project) }}
+  command: 
+    - /usr/local/bin/run-wrapper.py
+    - -v
+    - /workspace/helloworld/helloworld.py
+  envvars:
+    WORKDIR: /workspace
+  resources:
+    VCPU: 1
+    MEMORY: 1024
+  tags:
+    submitter: {{ username }}
+
