@@ -1,16 +1,19 @@
 # AWS Batch Cluster
 
-This repository builds an [AWS Batch](https://aws.amazon.com/batch/) cluster. There is a lot to get AWS Batch 
-to the point where all the components are in place and it's ready to do real work. This project builds the 
-supporting infrastructure and provides some tools to ease the process of getting started.
+This repository builds an [AWS Batch](https://aws.amazon.com/batch/) cluster. 
+
+There are a lot of things to put in place to get AWS Batch ready to do real work. This project gets you there
+by building the necessary core and supporting infrastructure: VPC with subnets and gateways ready to host EC2 
+spot instances, S3 buckets, ECR repository and the IAM policies and roles so jobs can access the resources. 
+It also provides some basic tools to submit and run jobs.
 
 The default setup builds a demo or development cluster. This is a minimal setup to test the system. There
 are configuration options for more advanced, production ready configurations which are described in the
-'Production Cluster' section below.
+[Production Cluster](#production-cluster) section below.
 
-The demo cluster is built using [docker engine](https://docs.docker.com/engine/install/) to build 
-management containers with the necessary thirdparty software (eg. terraform and ansible) and at the 
-correct versions. This works well for the demo cluster, but probably wouldn't work for a production cluster.
+The demo cluster uses [docker engine](https://docs.docker.com/engine/install/) to build management containers 
+with the necessary thirdparty software (eg. terraform and ansible) and at the correct versions. This works 
+well for the demo cluster, but probably wouldn't work for a production cluster
 
 To run the submission tools, you will need a recent python3 installation, and will probably use virtual
 environments to install the software and dependencies.
@@ -18,14 +21,14 @@ environments to install the software and dependencies.
 And of course, you also need an aws account with a working configuration for the 
 [cli tools](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-quickstart.html).
 
-The [key components](#key-components) section below gives an overview of the cluster's key components and
+The [Key Components](#key-components) section below gives an overview of the cluster's key components and
 how they work together to run a job.
 
-The [demo cluster](#demo-cluster) section describes how to build the demo or development cluster. This
+The [Demo Cluster](#demo-cluster) section describes how to build the demo or development cluster. This
 is a simple cluster that is useful to get familiar with the system, but isn't really a production
 ready system. It also describes how to define, build and run jobs.
 
-Finally, the [production cluster](#production-cluster) section describes how to upgrade the demo
+Finally, the [Production Cluster](#production-cluster) section describes how to upgrade the demo
 cluster to make it more scalable and resilient for production systems.
 
 ## Key Components
