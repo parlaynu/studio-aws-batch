@@ -3,9 +3,9 @@
 This repository builds an [AWS Batch](https://aws.amazon.com/batch/) cluster. 
 
 There are a lot of things to put in place to get AWS Batch ready to do real work. This project gets you there
-by building the necessary core and supporting infrastructure: VPC with subnets and gateways ready to host EC2 
-spot instances, S3 buckets, ECR repository and the IAM policies and roles so jobs can access the resources. 
-It also provides some basic tools to submit and run jobs.
+by building the necessary core infrastructure (job definitions, queues, compute environments) and supporting 
+infrastructure (VPC with subnets and gateways ready to host EC2 spot instances, S3 buckets, ECR repository, 
+IAM policies and roles so jobs can access the resources). It also provides some basic tools to submit and query jobs.
 
 The default setup builds a demo or development cluster. This is a minimal setup to test the system. There
 are configuration options for more advanced, production ready configurations which are described in the
